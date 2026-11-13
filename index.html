@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Discover what's trending around the world and challenge yourself with quick daily quizzes.">
+<meta name="theme-color" content="#090d1b">
+<title>TrendQuiz World — What's happening now?</title>
+<style>
+:root{--ink:#172033;--muted:#687386;--line:#e8edf3;--blue:#2563eb;--soft:#f4f7ff;--pink:#fff1f6;--green:#eafaf1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+a{color:inherit}.wrap{width:min(1050px,92%);margin:auto}
+.topbar{position:sticky;top:0;z-index:10;background:#ffffffed;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 0}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-size:19px;font-weight:800}
+.logo{width:34px;height:34px;border-radius:10px;background:#eaf1ff;color:var(--blue);display:grid;place-items:center;font-size:20px}
+.navlinks{display:flex;gap:18px;font-size:14px;color:var(--muted)}.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--blue)}
+.hero{padding:38px 0 26px}.eyebrow{font-size:12px;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.08;letter-spacing:-1.5px;margin:10px 0}
+.hero p{color:var(--muted);max-width:650px;font-size:16px;margin:0}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:0;border-radius:9px;padding:10px 15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.primary{background:var(--blue);color:white}.secondary{background:#f3f5f8;color:var(--ink);border:1px solid var(--line)}
+.section{padding:25px 0 30px;scroll-margin-top:75px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:14px}
+.section-head h2{font-size:26px;letter-spacing:-.5px;margin:3px 0}.section-head p{margin:0;color:var(--muted);font-size:14px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 4px 18px #17203308}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+.select{background:white;border:1px solid #dce3ed;border-radius:8px;color:var(--ink);padding:9px 11px;font:inherit}
+.small-note{font-size:12px;color:var(--muted)}
+.trend-list{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.trend{display:flex;gap:11px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.trend:nth-child(4n+1){background:#f8faff}.trend:nth-child(4n+2){background:#fff9fb}
+.rank{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;border-radius:8px;background:#eaf1ff;color:var(--blue);font-weight:800}
+.trend-main{min-width:0;flex:1}.trend-title{font-weight:700;overflow-wrap:anywhere}.trend-meta{color:var(--muted);font-size:11px}
+.trend a{font-size:12px;color:var(--blue);text-decoration:none;white-space:nowrap}.trend a:hover{text-decoration:underline}
+.status{font-size:12px;color:var(--muted)}.status:before{content:"●";color:#16a34a;margin-right:6px}
+.quiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.quiz-card{border:1px solid var(--line);border-radius:14px;padding:17px;background:#fff}
+.quiz-card:nth-child(1){background:#f8faff}.quiz-card:nth-child(2){background:#fff9fb}
+.quiz-card .tag{font-size:11px;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.8px}
+.quiz-card h3{margin:8px 0}.quiz-card p{color:var(--muted);font-size:14px}
+.question{font-size:18px;font-weight:800;margin:15px 0 12px}
+.answers{display:grid;gap:8px}.answer{width:100%;text-align:left;border:1px solid #dfe6f0;background:white;color:var(--ink);border-radius:9px;padding:11px;cursor:pointer;font:inherit}
+.answer:hover{border-color:var(--blue)}.answer:disabled{cursor:default;opacity:1}.answer.correct{border-color:#16a34a;background:var(--green)}.answer.wrong{border-color:#e879a6;background:var(--pink)}
+.feedback{min-height:24px;color:var(--muted);font-size:13px;margin-top:9px}
+.quiz-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.progress{height:6px;background:#e9edf3;border-radius:99px;overflow:hidden;flex:1}.progress span{display:block;height:100%;background:var(--blue);width:0;transition:.3s}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.tool{padding:15px;border:1px solid var(--line);border-radius:12px;background:#fff;text-decoration:none}.tool:hover{border-color:#9bb8f7;box-shadow:0 5px 16px #1720330b}
+.tool .emoji{font-size:24px}.tool h3{font-size:15px;margin:6px 0 3px}.tool p{font-size:13px;color:var(--muted);margin:0}
+.footer{border-top:1px solid var(--line);padding:22px 0 30px;color:var(--muted);font-size:13px;margin-top:15px}
+.footer-inner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.footer a{color:var(--blue);text-decoration:none}
+.empty{padding:20px;text-align:center;color:var(--muted);grid-column:1/-1}
+@media(max-width:700px){.navlinks{gap:11px;font-size:12px}.hero{padding:30px 0 20px}.trend-list,.quiz-grid{grid-template-columns:1fr}.tools-grid{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.panel{padding:12px}.hero h1{letter-spacing:-1px}}
+@media(max-width:390px){.brand{font-size:16px}.navlinks{gap:8px}.navlinks a:last-child{display:none}.trend{padding:10px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap nav">
+<a class="brand" href="#"><span class="logo">✦</span><span>TrendQuiz <span class="gradient">World</span></span></a>
+<nav class="navlinks"><a href="#trends">Live trends</a><a href="#quiz">Daily quiz</a><a href="#explore">Explore</a></nav>
+</div></header>
+<main class="wrap">
+<section class="hero">
+<div>
+<div class="eyebrow"><span class="pulse"></span> Discover • Play • Share</div>
+<h1>Know what's <span class="gradient">buzzing.</span><br>Test what you know.</h1>
+<p>Explore popular searches from different countries, then take a quick quiz. Fresh discoveries and bite-sized fun, all in one place.</p>
+<div class="hero-actions"><a class="btn primary" href="#trends">Explore trends ↗</a><a class="btn secondary" href="#quiz">Take today's quiz</a></div>
+</div>
+<div style="border:1px solid #e8edf3;border-radius:14px;padding:20px;background:#f8faff">
+<div style="font-size:38px">🌍</div><div class="eyebrow">A fresh look at what's popular</div><h3 style="margin:6px 0">Discover something new today</h3><p style="margin:0;color:#687386;font-size:14px">Browse public search trends, try a quick quiz and share interesting discoveries.</p>
+</div>
+</section>
+
+<section class="section" id="trends">
+<div class="section-head"><div><div class="eyebrow">What's getting attention</div><h2>Trending searches</h2><p>Public Google Trends RSS feed, where available. Results can vary by country.</p></div><span class="status" id="feedStatus">Connecting to trends feed…</span></div>
+<div class="panel">
+<div class="toolbar">
+<div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center"><label class="small-note" for="country">Region</label><select class="select" id="country">
+<option value="US">Worldwide / United States</option><option value="IN">India</option><option value="GB">United Kingdom</option><option value="CA">Canada</option><option value="AU">Australia</option><option value="JP">Japan</option><option value="DE">Germany</option><option value="FR">France</option><option value="BR">Brazil</option><option value="MX">Mexico</option><option value="SG">Singapore</option><option value="ZA">South Africa</option>
+</select><button class="btn secondary" id="refresh">↻ Refresh</button></div>
+<span class="small-note" id="updated">Waiting for first update…</span>
+</div>
+<div class="trend-list" id="trendList"><div class="empty">Loading public trend data…</div></div>
+<p class="small-note" style="margin:15px 2px 0">Source: Google Trends RSS via a public RSS-to-JSON service. This feed is not a count of every search and may be unavailable temporarily. Search links open Google in a new tab.</p>
+</div>
+</section>
+
+<section class="section" id="quiz">
+<div class="section-head"><div><div class="eyebrow">A little brain break</div><h2>Quick daily quiz</h2><p>Original general-knowledge questions. Pick an answer to see instant feedback.</p></div></div>
+<div class="quiz-grid">
+<div class="quiz-card">
+<span class="tag">Question <span id="qNum">1</span> of 5</span>
+<div class="question" id="question">Loading question…</div>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="quiz-footer"><div class="progress"><span id="progress"></span></div><button class="btn primary" id="next" disabled>Next →</button></div>
+</div>
+<div class="quiz-card">
+<span class="tag">Your score</span><div style="font-size:54px;font-weight:900;margin:8px 0"><span id="score">0</span><span style="font-size:20px;color:var(--muted)"> / 5</span></div>
+<h3 id="scoreTitle">Ready to play?</h3><p id="scoreText">Answer five short questions and see how you do. You can replay whenever you like.</p>
+<button class="btn secondary" id="restart">↻ Restart quiz</button>
+</div>
+</div>
+</section>
+
+<section class="section" id="explore">
+<div class="section-head"><div><div class="eyebrow">More reasons to explore</div><h2>Explore the internet</h2><p>Useful starting points from trusted public sources.</p></div></div>
+<div class="tools-grid">
+<a class="tool" href="https://trends.google.com/trending" target="_blank" rel="noopener"><div class="emoji">📈</div><h3>Google Trends</h3><p>Explore search interest and trending topics.</p></a>
+<a class="tool" href="https://www.wikipedia.org/" target="_blank" rel="noopener"><div class="emoji">📚</div><h3>Wikipedia</h3><p>Look up background information and learn more.</p></a>
+<a class="tool" href="https://www.nasa.gov/news/" target="_blank" rel="noopener"><div class="emoji">🚀</div><h3>NASA News</h3><p>Discover space missions, science and research.</p></a>
+</div>
+</section>
+</main>
+<footer class="footer"><div class="wrap footer-inner"><div><strong>TrendQuiz World</strong><br>Curiosity for everyone, everywhere.</div><div>Independent demo website. Not affiliated with Google or any news organization.<br><a href="#trends">Back to top ↑</a></div></div></footer>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=id=>document.getElementById(id);
+const countries={US:"United States",IN:"India",GB:"United Kingdom",CA:"Canada",AU:"Australia",JP:"Japan",DE:"Germany",FR:"France",BR:"Brazil",MX:"Mexico",SG:"Singapore",ZA:"South Africa"};
+const fallback={
+US:["Artificial intelligence","Space exploration","Climate technology","World football","Electric vehicles"],
+IN:["Indian science news","Cricket","Space research","Technology updates","Education news"],
+GB:["Technology","Climate research","Football","Space science","Culture"],
+CA:["Artificial intelligence","Hockey","Environment","Space","Technology"],
+AU:["Australian science","Cricket","Climate","Technology","Football"],
+JP:["Robotics","Anime","Space exploration","Technology","Science"],
+DE:["Renewable energy","Technology","Football","Science","Culture"],
+FR:["Science","Technology","Football","Culture","Environment"],
+BR:["Football","Technology","Music","Science","Environment"],
+MX:["Football","Technology","Science","Culture","Environment"],
+SG:["Technology","AI research","Science","Business","Education"],
+ZA:["Football","Technology","Science","Environment","Education"]
+};
+function googleSearchUrl(q){return "https://www.google.com/search?q="+encodeURIComponent(q)}
+function renderTrends(items, demo=false){
+ const list=$("trendList");list.innerHTML="";
+ items.slice(0,10).forEach((item,i)=>{
+  const title=typeof item==="string"?item:item.title;
+  const traffic=typeof item==="string"?"Explore topic":(item.traffic||"Explore topic");
+  const el=document.createElement("div");el.className="trend";
+  const rank=document.createElement("div");rank.className="rank";rank.textContent=String(i+1);
+  const main=document.createElement("div");main.className="trend-main";
+  const name=document.createElement("div");name.className="trend-title";name.textContent=title;
+  const meta=document.createElement("div");meta.className="trend-meta";meta.textContent=traffic+(demo?" · sample topic":" · public trend feed");
+  main.append(name,meta);
+  const link=document.createElement("a");link.href=googleSearchUrl(title);link.target="_blank";link.rel="noopener";link.textContent="Search ↗";
+  el.append(rank,main,link);list.append(el);
+ });
+ if(!items.length) list.innerHTML='<div class="empty">No trend items were returned. Try another region or refresh.</div>';
+}
+async function loadTrends(){
+ const code=$("country").value;
+ $("feedStatus").textContent="Updating public feed…";
+ $("trendList").innerHTML='<div class="empty">Fetching the latest available public trends…</div>';
+ try{
+  const rss="https://trends.google.com/trending/rss?geo="+encodeURIComponent(code);
+  const proxy="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(rss);
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);
+  const response=await fetch(proxy,{signal:controller.signal});clearTimeout(timer);
+  if(!response.ok) throw new Error("Feed request failed");
+  const data=await response.json();
+  if(data.status!=="ok"||!Array.isArray(data.items)||!data.items.length) throw new Error("No feed items");
+  renderTrends(data.items.map(x=>({title:x.title,traffic:(x.pubDate?new Date(x.pubDate).toLocaleString():"Recently updated")})));
+  $("feedStatus").textContent="Public feed connected · "+countries[code];
+ }catch(e){
+  renderTrends(fallback[code]||fallback.US,true);
+  $("feedStatus").textContent="Live feed unavailable · showing sample topics";
+ }
+ $("updated").textContent="Last checked: "+new Date().toLocaleTimeString();
+}
+$("refresh").addEventListener("click",loadTrends);
+$("country").addEventListener("change",loadTrends);
+loadTrends();setInterval(loadTrends,60000);
+
+const questions=[
+ {q:"Which planet is known as the Red Planet?",a:["Venus","Mars","Jupiter","Mercury"],c:1,why:"Mars looks reddish because iron minerals in its soil have oxidised."},
+ {q:"What is the largest ocean on Earth?",a:["Atlantic Ocean","Indian Ocean","Pacific Ocean","Arctic Ocean"],c:2,why:"The Pacific is the largest and deepest ocean on Earth."},
+ {q:"Which gas do plants absorb from the atmosphere?",a:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],c:1,why:"Plants use carbon dioxide during photosynthesis."},
+ {q:"How many sides does a hexagon have?",a:["Five","Six","Seven","Eight"],c:1,why:"A hexagon is a polygon with six sides."},
+ {q:"Which instrument measures temperature?",a:["Barometer","Compass","Thermometer","Altimeter"],c:2,why:"A thermometer measures how hot or cold something is."}
+];
+let qi=0,score=0,answered=false;
+function showQuestion(){
+ const q=questions[qi];answered=false;$("qNum").textContent=qi+1;$("question").textContent=q.q;$("answers").innerHTML="";$("feedback").textContent="";$("next").disabled=true;$("next").textContent=qi===4?"See result":"Next →";$("progress").style.width=(qi/5*100)+"%";
+ q.a.forEach((a,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+a;b.addEventListener("click",()=>choose(i));$("answers").append(b)});
+}
+function choose(i){
+ if(answered)return;answered=true;const q=questions[qi];const buttons=[...$("answers").children];
+ buttons.forEach((b,j)=>{b.disabled=true;if(j===q.c)b.classList.add("correct");else if(j===i)b.classList.add("wrong")});
+ if(i===q.c){score++;$("feedback").textContent="Correct! "+q.why}else $("feedback").textContent="Not quite. "+q.why;
+ $("score").textContent=score;$("next").disabled=false;$("progress").style.width=((qi+1)/5*100)+"%";
+}
+$("next").addEventListener("click",()=>{if(!answered)return;if(qi<4){qi++;showQuestion()}else{$("question").textContent="Quiz complete!";$("answers").innerHTML="";$("feedback").textContent="You scored "+score+" out of 5. Nice effort!";$("next").disabled=true;$("next").textContent="Finished";$("scoreTitle").textContent=score===5?"Perfect score!":score>=3?"Well done!":"Good try!";$("scoreText").textContent="Your score is "+score+"/5. Restart to play again.";$("progress").style.width="100%"}});
+$("restart").addEventListener("click",()=>{qi=0;score=0;$("score").textContent="0";$("scoreTitle").textContent="Ready to play?";$("scoreText").textContent="Answer five short questions and see how you do. You can replay whenever you like.";$("next").textContent="Next →";showQuestion()});
+showQuestion();
+</script>
+</body>
+</html>
